@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yemen NEAT+ Environmental Assessment - Al-Madarabah - December 2025</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #0B8A45 0%, #00A651 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .logos {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 10px;
+        }
+
+        .logo-placeholder {
+            height: 45px;
+            width: 100px;
+            background: linear-gradient(135deg, #0B8A45, #00A651);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        h1 {
+            color: #2d3748;
+            font-size: 1.8em;
+            margin-bottom: 5px;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            color: #4a5568;
+            font-size: 1em;
+            margin-bottom: 10px;
+        }
+
+        .executive-summary {
+            background: linear-gradient(135deg, #0B8A45, #00A651);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .executive-summary h2 {
+            font-size: 1.4em;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .executive-summary p {
+            font-size: 0.95em;
+            line-height: 1.5;
+            margin-bottom: 5px;
+        }
+
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-number {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #0B8A45;
+            margin-bottom: 2px;
+        }
+
+        .stat-label {
+            color: #4a5568;
+            font-size: 0.75em;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: none;
+        }
+
+        .card h3 {
+            color: #2d3748;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+            border-bottom: 2px solid #0B8A45;
+            padding-bottom: 5px;
+        }
+
+        .chart-container {
+            height: 220px;
+            margin: 10px 0;
+        }
+
+        /* Environmental Risks Table */
+        .risk-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 8px;
+            font-size: 0.85em;
+        }
+
+        .risk-table th, .risk-table td {
+            padding: 6px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .risk-table th {
+            background: #0B8A45;
+            color: white;
+            font-weight: 600;
+        }
+
+        .risk-table tr:hover {
+            background: #f7fafc;
+        }
+
+        .likelihood-likely {
+            color: #e53e3e;
+            font-weight: 600;
+        }
+
+        .likelihood-seldom {
+            color: #f6ad55;
+            font-weight: 600;
+        }
+
+        .importance-high {
+            background: #fed7d7;
+            color: #742a2a;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.85em;
+        }
+
+        .importance-medium {
+            background: #feebc8;
+            color: #744210;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.85em;
+        }
+
+        /* Mitigation Measures Priority */
+        .mitigation-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .mitigation-item {
+            padding: 8px;
+            border-radius: 6px;
+            border-left: 4px solid;
+            font-size: 0.85em;
+        }
+
+        .mitigation-blue {
+            background: #ebf8ff;
+            border-left-color: #3182ce;
+        }
+
+        .mitigation-green {
+            background: #f0fff4;
+            border-left-color: #38a169;
+        }
+
+        .mitigation-red {
+            background: #fff5f5;
+            border-left-color: #e53e3e;
+        }
+
+        .mitigation-item h4 {
+            color: #2d3748;
+            margin-bottom: 4px;
+            font-size: 0.9em;
+        }
+
+        .mitigation-item p {
+            color: #4a5568;
+            font-size: 0.8em;
+            margin-bottom: 3px;
+        }
+
+        .score-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-weight: bold;
+            font-size: 0.75em;
+        }
+
+        .score-high {
+            background: #3182ce;
+            color: white;
+        }
+
+        .score-medium {
+            background: #38a169;
+            color: white;
+        }
+
+        .score-low {
+            background: #e53e3e;
+            color: white;
+        }
+
+        /* Priority Legend */
+        .priority-legend {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 10px;
+            padding: 8px;
+            background: #f7fafc;
+            border-radius: 6px;
+            font-size: 0.8em;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .legend-color {
+            width: 14px;
+            height: 14px;
+            border-radius: 3px;
+        }
+
+        .legend-blue { background: #3182ce; }
+        .legend-green { background: #38a169; }
+        .legend-red { background: #e53e3e; }
+
+        /* Priority Matrix */
+        .priority-matrix {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .matrix-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .matrix-item {
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .high-impact-high-feasibility {
+            background: #c6f6d5;
+            color: #22543d;
+        }
+
+        .high-impact-low-feasibility {
+            background: #fed7d7;
+            color: #742a2a;
+        }
+
+        .low-impact-high-feasibility {
+            background: #bee3f8;
+            color: #2a4365;
+        }
+
+        .low-impact-low-feasibility {
+            background: #e2e8f0;
+            color: #4a5568;
+        }
+
+        /* Project Info */
+        .project-info {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .info-item {
+            background: #f7fafc;
+            padding: 8px;
+            border-radius: 6px;
+            border-left: 3px solid #0B8A45;
+            font-size: 0.85em;
+        }
+
+        .info-item strong {
+            color: #2d3748;
+            display: block;
+            margin-bottom: 2px;
+            font-size: 0.85em;
+        }
+
+        .info-item span {
+            color: #4a5568;
+            font-size: 0.85em;
+        }
+
+        /* Footer */
+        .footer {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .footer p {
+            color: #4a5568;
+            font-size: 0.8em;
+        }
+
+        @media print {
+            body {
+                background: white;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .card, .stat-card, .executive-summary, .header, .footer {
+                box-shadow: none;
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
+            .container {
+                padding: 5px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stat-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            h1 {
+                font-size: 1.8em;
+            }
+            
+            .matrix-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logos">
+                <div class="logo-placeholder">ADRA</div>
+                <div class="logo-placeholder">NEAT+</div>
+            </div>
+            <h1>Yemen NEAT+ Environmental Assessment</h1>
+            <p class="subtitle">Al-Madarabah Community - ECHO 2026 Project - December 11, 2025</p>
+        </div>
+
+        <!-- Executive Summary -->
+        <div class="executive-summary">
+            <h2>Executive Summary</h2>
+            <p><strong>ADRA Yemen</strong> has completed a comprehensive NEAT+ environmental assessment for the Al-Madarabah community as part of the ECHO 2026 project. This assessment identifies <strong>5 key environmental risks</strong> and provides <strong>10 prioritized mitigation measures</strong> categorized by implementation priority.</p>
+            <p>The assessment reveals critical concerns around <strong>water quality and scarcity</strong>, <strong>indoor air pollution</strong>, and <strong>climate-related risks</strong>. Mitigation measures have been prioritized based on cost, technical feasibility, social acceptance, project scope, and implementation capacity.</p>
+        </div>
+
+        <!-- NEAT+ Information -->
+        <div class="card" style="margin-bottom: 15px;">
+            <h3><i class="fas fa-tools"></i> About NEAT+ (Nexus Environmental Assessment Tool Plus)</h3>
+            <p style="font-size: 0.9em;"><strong>NEAT+</strong> was designed to help humanitarian actors integrate sustainable environmental practices into aid. It provides systematic environmental risk assessment with practical, context-specific mitigation measures focusing on water resources, waste management, air quality, soil protection, and ecosystem preservation.</p>
+        </div>
+
+        <!-- Project Information -->
+        <div class="card" style="margin-bottom: 15px;">
+            <h3><i class="fas fa-info-circle"></i> Project Information</h3>
+            <div class="project-info">
+                <div class="info-item">
+                    <strong>Project Name</strong>
+                    <span>ECHO 2026</span>
+                </div>
+                <div class="info-item">
+                    <strong>Assessment Date</strong>
+                    <span>December 11, 2025</span>
+                </div>
+                <div class="info-item">
+                    <strong>Location</strong>
+                    <span>Al-Madarabah, Yemen</span>
+                </div>
+                <div class="info-item">
+                    <strong>Organization</strong>
+                    <span>ADRA Yemen</span>
+                </div>
+                <div class="info-item">
+                    <strong>Assessment Team</strong>
+                    <span>Hani & Abeer</span>
+                </div>
+                <div class="info-item">
+                    <strong>Population</strong>
+                    <span>5,000 - 10,000 (Rural)</span>
+                </div>
+                <div class="info-item">
+                    <strong>Settlement Type</strong>
+                    <span>Displaced population dispersed within host community</span>
+                </div>
+                <div class="info-item">
+                    <strong>Crisis Type</strong>
+                    <span>Complex (>1 year)</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Key Statistics -->
+        <div class="stat-grid" style="margin-bottom: 10px;">
+            <div class="stat-card">
+                <div class="stat-number">5</div>
+                <div class="stat-label">Environmental Risks<br>Identified</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">10</div>
+                <div class="stat-label">Mitigation Measures<br>Proposed</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">4</div>
+                <div class="stat-label">Priority 1 (Blue)<br>Preferred Measures</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">4</div>
+                <div class="stat-label">Priority 2 (Green)<br>Secondary Measures</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">2</div>
+                <div class="stat-label">Outside Scope (Red)<br>Not Applicable</div>
+            </div>
+        </div>
+
+        <!-- Environmental Risks Section -->
+        <div class="card" style="margin-bottom: 15px;">
+            <h3><i class="fas fa-exclamation-triangle"></i> Identified Environmental Risks</h3>
+            <table class="risk-table">
+                <thead>
+                    <tr>
+                        <th>Environmental Risk</th>
+                        <th>Likelihood</th>
+                        <th>Magnitude</th>
+                        <th>Importance to Community</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Water sources may be vulnerable to contamination. Water quality may be an issue</td>
+                        <td class="likelihood-likely">Likely</td>
+                        <td>Local (limited to project site)</td>
+                        <td><span class="importance-high">Highly Important (Life-threatening)</span></td>
+                    </tr>
+                    <tr>
+                        <td>This area may be at risk of soil erosion from wind</td>
+                        <td class="likelihood-likely">Likely</td>
+                        <td>Local (limited to project site)</td>
+                        <td><span class="importance-medium">Important (Affecting livelihood)</span></td>
+                    </tr>
+                    <tr>
+                        <td>Indoor air pollution, caused by poor ventilation and cooking/heating, may be an issue</td>
+                        <td class="likelihood-likely">Likely</td>
+                        <td>Local (limited to project site)</td>
+                        <td><span class="importance-high">Highly Important (Life-threatening)</span></td>
+                    </tr>
+                    <tr>
+                        <td>The water resources may have a low regenerative capacity. Water scarcity may be an issue</td>
+                        <td class="likelihood-likely">Likely</td>
+                        <td>Local (limited to project site)</td>
+                        <td><span class="importance-high">Highly Important (Life-threatening)</span></td>
+                    </tr>
+                    <tr>
+                        <td>The area may have heightened exposure to climate related risks and extreme weather events (flood events)</td>
+                        <td class="likelihood-seldom">Seldom</td>
+                        <td>Local (limited to project site)</td>
+                        <td><span class="importance-medium">Important (Affecting livelihood)</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Dashboard Grid -->
+        <div class="dashboard-grid">
+            <!-- Environmental Risks Chart -->
+            <div class="card">
+                <h3><i class="fas fa-chart-bar"></i> Environmental Risks by Category</h3>
+                <div class="chart-container">
+                    <canvas id="risksChart"></canvas>
+                </div>
+                <p><strong>Key Finding:</strong> Water-related risks (quality and scarcity) represent the most critical environmental challenges, followed by air quality concerns.</p>
+            </div>
+
+            <!-- Risk Importance Distribution -->
+            <div class="card">
+                <h3><i class="fas fa-chart-pie"></i> Risk Importance Distribution</h3>
+                <div class="chart-container">
+                    <canvas id="importanceChart"></canvas>
+                </div>
+                <p><strong>Priority:</strong> 60% of identified risks are classified as "Highly Important (Life-threatening)" requiring immediate attention.</p>
+            </div>
+        </div>
+
+        <!-- Mitigation Measures Section -->
+        <div class="card" style="margin-bottom: 15px;">
+            <h3><i class="fas fa-shield-alt"></i> Prioritized Mitigation Measures</h3>
+            
+            <div class="priority-legend">
+                <div class="legend-item">
+                    <div class="legend-color legend-blue"></div>
+                    <span><strong>Blue - Priority 1:</strong> Preferred measures (highest scores)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color legend-green"></div>
+                    <span><strong>Green - Priority 2:</strong> Secondary preferred measures</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color legend-red"></div>
+                    <span><strong>Red - Outside Scope:</strong> Cannot be applied within project scope</span>
+                </div>
+            </div>
+
+            <div class="mitigation-grid">
+                <!-- Blue Priority - Preferred -->
+                <div class="mitigation-item mitigation-blue">
+                    <h4><i class="fas fa-star"></i> Water Scarcity - Training Water User Committee</h4>
+                    <p><strong>Risk Addressed:</strong> The water resources may have a low regenerative capacity. Water scarcity may be an issue</p>
+                    <p><strong>Criteria Scores:</strong> Cost: 4 | Technical Feasibility: 5 | Social Acceptance: 5 | Within Scope: 5 | Implementation Capacity: 5</p>
+                    <span class="score-badge score-high">Total Score: 24</span>
+                </div>
+
+                <div class="mitigation-item mitigation-blue">
+                    <h4><i class="fas fa-star"></i> Water Scarcity - Pumping Tests</h4>
+                    <p><strong>Risk Addressed:</strong> The water resources may have a low regenerative capacity. Water scarcity may be an issue</p>
+                    <p><strong>Criteria Scores:</strong> Cost: 4 | Technical Feasibility: 5 | Social Acceptance: 5 | Within Scope: 5 | Implementation Capacity: 5</p>
+                    <span class="score-badge score-high">Total Score: 24</span>
+                </div>
+
+                <div class="mitigation-item mitigation-blue">
+                    <h4><i class="fas fa-star"></i> Water Quality - Chlorination</h4>
+                    <p><strong>Risk Addressed:</strong> Water sources may be vulnerable to contamination. Water quality may be an issue</p>
+                    <p><strong>Criteria Scores:</strong> Cost: 5 | Technical Feasibility: 5 | Social Acceptance: 5 | Within Scope: 5 | Implementation Capacity: 5</p>
+                    <span class="score-badge score-high">Total Score: 25</span>
+                </div>
+
+                <div class="mitigation-item mitigation-blue">
+                    <h4><i class="fas fa-star"></i> Water Quality - Capacity Building for Water Management Committee</h4>
+                    <p><strong>Risk Addressed:</strong> Water sources may be vulnerable to contamination. Water quality may be an issue</p>
+                    <p><strong>Criteria Scores:</strong> Cost: 5 | Technical Feasibility: 5 | Social Acceptance: 5 | Within Scope: 5 | Implementation Capacity: 5</p>
+                    <span class="score-badge score-high">Total Score: 25</span>
+                </div>
+
+                <!-- Green Priority - Secondary -->
+                <div class="mitigation-item mitigation-green">
+                    <h4><i class="fas fa-check-circle"></i> Water Quality - Protection for Water Sources</h4>
+                    <p><strong>Risk Addressed:</strong> Water sources may be vulnerable to contamination. Water quality may be an issue</p>
+                    <p><strong>Criteria Scores:</strong> Cost: 4 | Technical Feasibility: 5 | Social Acceptance: 5 | Within Scope: 5 | Implementation Capacity: 5</p>
+                    <span class="score-badge score-medium">Total Score: 24</span>
+                </div>
+
+                <div class="mitigation-item mitigation-green">
+                    <h4><i class="fas fa-check-circle"></i> Water Scarcity - Installation of Solar System</h4>
+                    <p><strong>Risk Addressed:</strong> The water resources may have a low regenerative capacity. Water scarcity may be an issue</p>
+                    <p><strong>Criteria Scores:</strong> Cost: 3 | Technical Feasibility: 5 | Social Acceptance: 5 | Within Scope: 5 | Implementation Capacity: 4</p>
+                    <span class="score-badge score-medium">Total Score: 22</span>
+                </div>
+
+                <div class="mitigation-item mitigation-green">
+                    <h4><i class="fas fa-check-circle"></i> Climate Risks - Construction of Flood Protection Walls</h4>
+                    <p><strong>Risk Addressed:</strong> The area may have heightened exposure to climate related risks and extreme weather events (flood events)</p>
+                    <p><strong>Criteria Scores:</strong> Cost: 4 | Technical Feasibility: 5 | Social Acceptance: 5 | Within Scope: 5 | Implementation Capacity: 4</p>
+                    <span class="score-badge score-medium">Total Score: 23</span>
+                    <p style="margin-top: 8px; font-style: italic; color: #666;">Note: Event due to climate change, does not happen often and is difficult to forecast.</p>
+                </div>
+
+                <!-- Red - Outside Scope -->
+                <div class="mitigation-item mitigation-red">
+                    <h4><i class="fas fa-times-circle"></i> Soil Erosion - Windbreak Trees</h4>
+                    <p><strong>Risk Addressed:</strong> This area may be at risk of sand dunes from wind</p>
+                    <p><strong>Criteria Scores:</strong> Cost: 2 | Technical Feasibility: 5 | Social Acceptance: 3 | Within Scope: 1 | Implementation Capacity: 2</p>
+                    <span class="score-badge score-low">Total Score: 13 - Outside Project Scope</span>
+                </div>
+
+                <div class="mitigation-item mitigation-red">
+                    <h4><i class="fas fa-times-circle"></i> Indoor Air Pollution - Natural Gas Cooker</h4>
+                    <p><strong>Risk Addressed:</strong> Indoor air pollution, caused by poor ventilation and cooking/heating, may be an issue</p>
+                    <p><strong>Criteria Scores:</strong> Cost: 3 | Technical Feasibility: 5 | Social Acceptance: 5 | Within Scope: 1 | Implementation Capacity: 1</p>
+                    <span class="score-badge score-low">Total Score: 15 - Outside Project Scope</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sensitivity Summary -->
+        <div class="card" style="margin-bottom: 15px;">
+            <h3><i class="fas fa-clipboard-list"></i> Environmental Sensitivity Summary</h3>
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 8px; font-size: 0.8em;">
+                <div>
+                    <h4 style="color: #e53e3e; margin-bottom: 5px; font-size: 0.95em;"><i class="fas fa-exclamation-circle"></i> High Concern</h4>
+                    <ul style="padding-left: 15px; color: #4a5568; margin: 0; line-height: 1.4;">
+                        <li>Fragile ecosystems</li>
+                        <li>Deforestation risk</li>
+                        <li>Low regenerative capacity</li>
+                        <li>Indoor air pollution</li>
+                        <li>Water scarcity</li>
+                        <li>Solid waste management</li>
+                        <li>Soil erosion from water</li>
+                        <li>Flooding risk</li>
+                        <li>Climate-related risks</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 style="color: #f6ad55; margin-bottom: 5px; font-size: 0.95em;"><i class="fas fa-exclamation-triangle"></i> Medium Concern</h4>
+                    <ul style="padding-left: 15px; color: #4a5568; margin: 0; line-height: 1.4;">
+                        <li>Low community self-sufficiency</li>
+                        <li>Crisis waste management</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 style="color: #38a169; margin-bottom: 5px; font-size: 0.95em;"><i class="fas fa-info-circle"></i> Lower Concern</h4>
+                    <ul style="padding-left: 15px; color: #4a5568; margin: 0; line-height: 1.4;">
+                        <li>Displaced population uncertainty</li>
+                        <li>Water contamination potential</li>
+                        <li>Wastewater management</li>
+                        <li>Soil erosion from wind</li>
+                        <li>Conflict-related hazards</li>
+                        <li>Resource scarcity conflicts</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p><strong>ADRA Yemen - NEAT+ Environmental Assessment Report</strong> | Al-Madarabah Community | ECHO 2026 | December 11, 2025</p>
+        </div>
+    </div>
+
+    <script>
+        // Environmental Risks by Category Chart
+        const risksCtx = document.getElementById('risksChart').getContext('2d');
+        new Chart(risksCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Water Quality', 'Water Scarcity', 'Indoor Air Pollution', 'Soil Erosion', 'Climate/Flood Risk'],
+                datasets: [{
+                    label: 'Risk Level',
+                    data: [4, 4, 4, 3, 2],
+                    backgroundColor: ['#e53e3e', '#e53e3e', '#e53e3e', '#f6ad55', '#f6ad55'],
+                    borderWidth: 2,
+                    borderColor: '#2d3748'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    title: {
+                        display: true,
+                        text: 'Environmental Risk Severity (1-5 scale)'
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 5,
+                        title: {
+                            display: true,
+                            text: 'Severity Level'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Risk Categories'
+                        }
+                    }
+                }
+            }
+        });
+
+        // Risk Importance Distribution Chart
+        const importanceCtx = document.getElementById('importanceChart').getContext('2d');
+        new Chart(importanceCtx, {
+            type: 'pie',
+            data: {
+                labels: ['Highly Important (Life-threatening)', 'Important (Affecting livelihood)'],
+                datasets: [{
+                    data: [3, 2],
+                    backgroundColor: ['#e53e3e', '#f6ad55'],
+                    borderWidth: 2,
+                    borderColor: '#ffffff'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    },
+                    title: {
+                        display: true,
+                        text: 'Distribution of Risk Importance Levels'
+                    }
+                }
+            }
+        });
+
+    </script>
+</body>
+</html>
